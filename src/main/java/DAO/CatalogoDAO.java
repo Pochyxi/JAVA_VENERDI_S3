@@ -54,7 +54,7 @@ public class CatalogoDAO {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
 
-            em.remove(object);
+            em.remove(em.contains(object) ? object : em.merge(object));
 
             transaction.commit();
         } catch (Exception ex) {

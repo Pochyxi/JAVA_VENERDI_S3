@@ -22,82 +22,113 @@ public class Main {
         // RICERCA NEL CATALOGO PER ISBN
         Catalogo lib = catalogodao.getById( 1L );
 
-        System.out.println("ELEMENTO TROVATO");
-        System.out.println(lib);
+        System.out.println( "ELEMENTO TROVATO" );
+        System.out.println( lib );
         System.out.println();
 
-        System.out.println("UTENTE TROVATO");
-        System.out.println(utente);
+        System.out.println( "UTENTE TROVATO" );
+        System.out.println( utente );
         System.out.println();
 
 //         CREAZIONE DI UN PRESTITO
 //        savePrestito(utenteDao.getUserByFullName( "tommaso", "ranocchia" ).get( 0 ) ,
 //                catalogodao.getLibroByTitolo( "stars wars" ).get( 0 ) );
 
-        System.out.println("CERCA PRESTITI PER NOME");
-       List<Prestito> prestiti =
-               prestitoDao.getPrestitoByUserId( utenteDao.getUserByFullName( "cristina", "anguilotta" ).get( 0 ).getNumeroTessera() );
-        System.out.println("RISULTATI: " + prestiti.size());
-        for (Prestito prestito : prestiti) {
-            System.out.println(prestito);
+        System.out.println( "CERCA PRESTITI PER NOME" );
+        List<Prestito> prestiti =
+                prestitoDao.getPrestitoByUserId( utenteDao.getUserByFullName( "cristina", "anguilotta" ).get( 0 ).getNumeroTessera() );
+        System.out.println( "RISULTATI: " + prestiti.size() );
+        for( Prestito prestito : prestiti ) {
+            System.out.println( prestito );
         }
         System.out.println();
 
-        System.out.println("CERCA PRESTITI SCADUTI NON RESTITUITI");
+        System.out.println( "CERCA PRESTITI SCADUTI NON RESTITUITI" );
         List<Prestito> prestitiScadutiNonRestituiti = prestitoDao.getScadutiNonRestituiti();
-        System.out.println("RISULTATI: " + prestitiScadutiNonRestituiti.size());
-        for (Prestito prestito : prestitiScadutiNonRestituiti) {
-            System.out.println(prestito);
+        System.out.println( "RISULTATI: " + prestitiScadutiNonRestituiti.size() );
+        for( Prestito prestito : prestitiScadutiNonRestituiti ) {
+            System.out.println( prestito );
         }
         System.out.println();
 
-        System.out.println("RICERCA UTENTI PER NOME");
+        System.out.println( "RICERCA UTENTI PER NOME" );
         List<Utente> utentiFinded = utenteDao.getUserByFullName( "tommaso", "ranocchia" );
-        System.out.println("RISULTATI: " + utentiFinded.size());
-        for (Utente ut : utentiFinded) {
-            System.out.println(ut);
+        System.out.println( "RISULTATI: " + utentiFinded.size() );
+        for( Utente ut : utentiFinded ) {
+            System.out.println( ut );
         }
         System.out.println();
 
-        System.out.println("CERCA LIBRO PER TITOLO");
-        System.out.println(catalogodao.getLibroByTitolo("Angeli e demoni"  ));
+        System.out.println( "CERCA LIBRO PER TITOLO" );
+        System.out.println( catalogodao.getLibroByTitolo( "Angeli e demoni" ) );
         System.out.println();
 
-        System.out.println("CERCA RIVISTA PER TITOLO");
+        System.out.println( "CERCA RIVISTA PER TITOLO" );
         List<Catalogo> rivisteFinded = catalogodao.getRivistaByTitolo( "grand hotel" );
-        System.out.println("RISULTATI: " + rivisteFinded.size());
-        for (Catalogo ut : rivisteFinded) {
-            System.out.println(ut);
+        System.out.println( "RISULTATI: " + rivisteFinded.size() );
+        for( Catalogo ut : rivisteFinded ) {
+            System.out.println( ut );
         }
         System.out.println();
 
-        System.out.println("CERCA LIBRO PER AUTORE");
-        List<Catalogo> libriFinded =  catalogodao.getLibroByAutore( "Dan Brown" );
-        System.out.println("RISULTATI: " + libriFinded.size());
-        for (Catalogo ut : libriFinded) {
-            System.out.println(ut);
+        System.out.println( "CERCA LIBRO PER AUTORE" );
+        List<Catalogo> libriFinded = catalogodao.getLibroByAutore( "Dan Brown" );
+        System.out.println( "RISULTATI: " + libriFinded.size() );
+        for( Catalogo ut : libriFinded ) {
+            System.out.println( ut );
         }
         System.out.println();
 
-        System.out.println("CERCA ELEMENTO NEL CATALOGO");
+        System.out.println( "CERCA ELEMENTO NEL CATALOGO" );
         List<Catalogo> catalogoFinded = catalogodao.cercaElementoNelCatalogo( "" );
-        System.out.println("RISULTATI: " + catalogoFinded.size());
-        for (Catalogo ut : catalogoFinded) {
-            System.out.println(ut);
+        System.out.println( "RISULTATI: " + catalogoFinded.size() );
+        for( Catalogo ut : catalogoFinded ) {
+            System.out.println( ut );
         }
         System.out.println();
 
-        System.out.println("CERCA ELEMENTO NEL CATALOGO PER ANNO DI PUBBLICAZIONE");
+        System.out.println( "CERCA ELEMENTO NEL CATALOGO PER ANNO DI PUBBLICAZIONE" );
         List<Catalogo> annoFinded = catalogodao.cercaElementoNelCatalogoPerAnno( 2022 );
-        System.out.println("RISULTATI: " + annoFinded.size());
-        for (Catalogo ut : annoFinded) {
-            System.out.println(ut);
+        System.out.println( "RISULTATI: " + annoFinded.size() );
+        for( Catalogo ut : annoFinded ) {
+            System.out.println( ut );
         }
         System.out.println();
+
+        //ELIMINAZIONE DI ENTITA'
+        // scommetami per AGGIUNGERE UN ELEMENTO FITTIZZIO
+
+//      saveUtente( "Eliminami", "Per Favore", LocalDate.of( 1998, 12, 5 ) ); //________
+//
+//      saveLibro( "Eliminami", "Eliminazione", Genere.FANTASY, 2022, 100 ); //_________
+
+//       savePrestito( utenteDao.getUserByFullName(                                             //______
+//                "franco",                                                                     //______
+//                "spittona" ).get( 0 ), catalogodao.getLibroByTitolo( "paradiso" ).get( 0 ) ); // _______
+
+//         SERVE PER VISUALIZZARE I PRESTITI DI QUESTA PERSONA
+
+//        System.out.println("______________________________________________");             //_______
+//        System.out.println( prestitoDao.getPrestitoByUserId( utenteDao.getUserByFullName( //______
+//                "franco",                                                                 //______
+//                "spittona" ).get( 0 ).getNumeroTessera() ) );                             //_____
+//        System.out.println("______________________________________________");             //________
+
+        // commenta save( ) e scommenta qui sotto per eliminare l'utente fittizzio //________
+
+//        utenteDao.delete( utenteDao.getUserByFullName( "eliminami", "per favore" ).get( 0 ) ); //_______
+
+//        catalogodao.delete( catalogodao.cercaElementoNelCatalogo( "eliminami" ).get( 0 ) ); //________
+
+        // ELIMINA IL PRIMO PRESTITO DELL'UTENTE
+//        prestitoDao.delete( prestitoDao.getPrestitoByUserId( utenteDao.getUserByFullName( //________
+//                "franco",                                                                 //______
+//                "spittona" ).get( 0 ).getNumeroTessera() ).get( 0 ) );                    //_______
+
 
     }
 
-public static void saveLibro( String nome, String autore, Genere genere, int anno, int pagine ) {
+    public static void saveLibro( String nome, String autore, Genere genere, int anno, int pagine ) {
         Libro lib = new Libro();
         lib.setTitolo( nome );
         lib.setAutore( autore );
@@ -105,15 +136,16 @@ public static void saveLibro( String nome, String autore, Genere genere, int ann
         lib.setAnnoPubblicazione( anno );
         lib.setNumeroPagine( pagine );
 
-    CatalogoDAO catalogo = new CatalogoDAO();
-    catalogo.save( lib );
-}
+        CatalogoDAO catalogo = new CatalogoDAO();
+        catalogo.save( lib );
+    }
+
     public static void saveRivista( String nome, Periodicita periodicita, int anno, int pagine ) {
         Rivista riv = new Rivista();
         riv.setTitolo( nome );
         riv.setPeriodicita( periodicita );
-        riv.setAnnoPubblicazione( 1967 );
-        riv.setNumeroPagine( 789 );
+        riv.setAnnoPubblicazione( anno );
+        riv.setNumeroPagine( pagine );
 
         CatalogoDAO catalogo = new CatalogoDAO();
         catalogo.save( riv );
@@ -129,7 +161,7 @@ public static void saveLibro( String nome, String autore, Genere genere, int ann
         utente.save( ut );
     }
 
-    public static void savePrestito(Utente utente, Catalogo item ) {
+    public static void savePrestito( Utente utente, Catalogo item ) {
         Prestito ut = new Prestito();
         ut.setUtente( utente );
         ut.setCatalogo( item );

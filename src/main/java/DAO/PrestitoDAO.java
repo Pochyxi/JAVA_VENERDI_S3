@@ -1,7 +1,6 @@
 package DAO;
 
 import ch.qos.logback.classic.Logger;
-import models.Catalogo;
 import models.Prestito;
 import org.slf4j.LoggerFactory;
 import util.JpaUtil;
@@ -57,7 +56,7 @@ public class PrestitoDAO {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
 
-            em.remove( object );
+            em.remove(em.contains(object) ? object : em.merge(object));
 
             transaction.commit();
         } catch( Exception ex ) {
@@ -104,7 +103,7 @@ public class PrestitoDAO {
             Query query = em.createQuery( "select p from Prestito p" );
 
             List<Prestito> result = query.getResultList();
-            List<Prestito> elaborate = new ArrayList<Prestito>();
+            List<Prestito> elaborate = new ArrayList<>();
 
             for( Prestito p : result ) {
                 if( p.getDataScadenzaPrestito().compareTo( LocalDate.now() ) < 0 && p.getRestuzione() == null ) {
