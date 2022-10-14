@@ -21,12 +21,12 @@ public class Rivista extends Catalogo {
 
     @Override
     public String toString() {
-        return "Rivista{" +
-                "titolo='" + this.getTitolo() +
-                "', periodicita='" + periodicita +
-                "', pagine='" + this.getNumeroPagine() +
-                "', anno='" + this.getAnnoPubblicazione() +
-                "'" +
-                '}';
+        return "|| Rivista" +
+                " | ISBN='" + this.getCodiceisbn() +
+                " | TITOLO='" + this.getTitolo() +
+                "'| PERIODICITA='" + periodicita +
+                "'| NUMERO PAGINE='" + this.getNumeroPagine() +
+                "'| ANNO PUBBLICAZIONE='" + this.getAnnoPubblicazione() +
+                "'||";
     }
 }
