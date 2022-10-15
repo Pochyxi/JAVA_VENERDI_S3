@@ -41,7 +41,11 @@ public class PrestitoDAO {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
 
-            em.refresh( object );
+            Prestito employee = em.find(object.getClass(), object.getId());
+
+            em.getTransaction().begin();
+            employee.setRestuzione(LocalDate.now().toString());
+            em.getTransaction().commit();
 
         } finally {
             em.close();
@@ -59,6 +63,10 @@ public class PrestitoDAO {
             em.remove(em.contains(object) ? object : em.merge(object));
 
             transaction.commit();
+
+            System.out.println("...Eliminato -> " + object);
+            System.out.println();
+
         } catch( Exception ex ) {
             em.getTransaction().rollback();
             logger.error( "Error deleting object: " + object.getClass().getSimpleName(), ex );
@@ -76,6 +84,16 @@ public class PrestitoDAO {
 
             return em.find( Prestito.class, id );
 
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public List<Prestito> getAll() {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+            return em.createQuery("select p from Prestito p").getResultList();
         } finally {
             em.close();
         }

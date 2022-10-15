@@ -10,7 +10,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @NamedQuery(
         name = "findLoan",
@@ -26,17 +25,28 @@ public class Prestito {
     @JoinColumn(name = "utente_id")
     Utente utente;
 
-   @ManyToOne
-   @JoinColumn(name = "catalogo_codiceisbn")
-   Catalogo catalogo;
+    @ManyToOne
+    @JoinColumn(name = "catalogo_codiceisbn")
+    Catalogo catalogo;
 
-   private LocalDate dataPrestito = LocalDate.now();
+    private LocalDate dataPrestito = LocalDate.now();
 
-   private LocalDate dataScadenzaPrestito = LocalDate.now().plusMonths( 1 );
+    private LocalDate dataScadenzaPrestito = LocalDate.now().plusMonths( 1 );
 
-   private LocalDate restuzione;
+    private String restuzione;
 
-    private void restituito(){
-        this.restuzione =  LocalDate.now();
+    public void restituito() {
+        this.restuzione = LocalDate.now().toString();
+    }
+
+    @Override
+    public String toString() {
+        return "|| Prestito" +
+                "id=" + id +
+                ",\n utente=" + utente +
+                ", catalogo=" + catalogo +
+                ", dataPrestito=" + dataPrestito +
+                ", dataScadenzaPrestito=" + dataScadenzaPrestito +
+                ", restuzione=" + restuzione;
     }
 }

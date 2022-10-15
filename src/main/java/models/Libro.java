@@ -23,12 +23,12 @@ public class Libro extends Catalogo {
     @Override
     public String toString() {
         return "|| Libro" +
-                " | ISBN='" + this.getCodiceisbn() +
-                " | TITOLO='" + this.getTitolo() +
-                "'| autore='" + autore +
-                "'| genere='" + genere +
-                "'| pagine='" + this.getNumeroPagine() +
-                "'| anno='" + this.getAnnoPubblicazione() +
+                " | ISBN= '" + this.getCodiceisbn() +
+                "'| TITOLO= '" + this.getTitolo() +
+                "'| AUTORE= '" + autore +
+                "'| GENERE= '" + genere +
+                "'| PAGINE= '" + this.getNumeroPagine() +
+                "'| ANNO P.= '" + this.getAnnoPubblicazione() +
                 "'||";
     }
 }

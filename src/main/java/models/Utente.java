@@ -10,7 +10,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @NamedQuery(
         name = "userByFullName",
@@ -28,4 +27,14 @@ public class Utente {
     private String cognome;
 
     private LocalDate dataDiNascita;
+
+    @Override
+    public String toString() {
+        return "|| Utente" +
+                " | N. TESSERA= '" + numeroTessera +
+                "' | NOME= '" + nome + '\'' +
+                " | COGNOME= '" + cognome + '\'' +
+                " | DATA DI NASCITA= '" + dataDiNascita +
+                "' ||";
+    }
 }
