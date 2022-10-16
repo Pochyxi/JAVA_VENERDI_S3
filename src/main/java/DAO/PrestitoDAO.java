@@ -44,7 +44,7 @@ public class PrestitoDAO {
             Prestito employee = em.find(object.getClass(), object.getId());
 
             em.getTransaction().begin();
-            employee.setRestuzione(LocalDate.now().toString());
+            employee.setRestituzione(LocalDate.now().toString());
             em.getTransaction().commit();
 
         } finally {
@@ -124,7 +124,7 @@ public class PrestitoDAO {
             List<Prestito> elaborate = new ArrayList<>();
 
             for( Prestito p : result ) {
-                if( p.getDataScadenzaPrestito().compareTo( LocalDate.now() ) < 0 && p.getRestuzione() == null ) {
+                if( p.getDataScadenzaPrestito().compareTo( LocalDate.now() ) < 0 && p.getRestituzione() == null ) {
                     elaborate.add( p );
                 }
             }

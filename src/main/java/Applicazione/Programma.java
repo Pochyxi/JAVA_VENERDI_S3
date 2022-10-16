@@ -35,7 +35,7 @@ public class Programma {
     } // MI SERVE PER LA CREAZIONE DELL'ENUM PERIODICITA'
 
     private void getDatabase() {
-        standardMessage( "Visualizzo il catalogo" );
+        standardMessage( "Visualizzo il catalogo libri/riviste" );
         List<Catalogo> database = catalogodao.cercaElementoNelCatalogo( "" );
 
         for( Catalogo data : database ) {
@@ -44,11 +44,20 @@ public class Programma {
     }
 
     private void getPrestiti() {
-        standardMessage( "Visualizzo il catalogo" );
+        standardMessage( "Visualizzo il catalogo prestiti" );
         List<Prestito> database = prestitoDao.getAll();
 
         for( Prestito data : database ) {
             printerPrestito( data );
+        }
+    }
+
+    private void getUtenti() {
+        standardMessage( "Visualizzo il catalogo utenti" );
+        List<Utente> database = utenteDao.getAll();
+
+        for( Utente data : database ) {
+            printerUtente( data );
         }
     }
 
@@ -64,7 +73,7 @@ public class Programma {
 
     private void printerPrestito( Prestito item ) {
 
-        String itemC = item.getRestuzione() == null ? "NO " : "SI ";
+        String itemC = item.getRestituzione() == null ? "NO " : "SI ";
         System.out.println( "|| PRESTITO ID: '" + item.getId() + "' | DATA DI EMISSIONE: '" + item.getDataPrestito() +
                 "' |" +
                 " " +
@@ -158,7 +167,8 @@ public class Programma {
                         modalePrestiti();
                     }
                     case 6 -> {
-
+                        infoMessage( "Hai scelto menu utenti" );
+                        modaleUtente();
                     }
                     default -> errorMessage( "Inserisci un input valido" );
                 }
@@ -519,7 +529,7 @@ public class Programma {
                                     scanner.nextLine();
                                 }
 
-                                if (userid != 0 && itemId != 0) {
+                                if( userid != 0 && itemId != 0 ) {
                                     infoMessage( "Emetto prestito..." );
                                     savePrestito( utenteDao.getById( userid ), catalogodao.getById( itemId ) );
                                 } else {
@@ -557,7 +567,7 @@ public class Programma {
                                         long idForP = 0;
                                         infoMessage( "Inserisci il nome del debitore" );
                                         String nome = scanner.nextLine();
-                                        infoMessage( "Inserisci il cognome del debitore");
+                                        infoMessage( "Inserisci il cognome del debitore" );
                                         String cognome = scanner.nextLine();
 
                                         infoMessage( "Ricerco..." );
@@ -586,7 +596,7 @@ public class Programma {
 
                                         if( prestitiTrovati.size() == 0 ) {
                                             errorMessage( "Prestito non trovato" );
-                                            infoMessage( "Ricontrolla");
+                                            infoMessage( "Ricontrolla" );
                                         } else if( prestitiTrovati.size() > 1 ) {
                                             infoMessage( "Trovati più prestiti dello stesso utente" );
                                             for( Prestito u : prestitiTrovati ) {
@@ -604,7 +614,7 @@ public class Programma {
 
                                         infoMessage( "Elimino prestito..." );
 
-                                        prestitoDao.delete( prestitoDao.getById( itemId ) );
+                                        prestitoDao.delete( prestitoDao.getById( idForP ) );
                                     }
                                     case 2 -> {
                                         try {
@@ -615,7 +625,7 @@ public class Programma {
 
                                             prestitoDao.delete( prestitoDao.getById( input ) );
                                         } catch( Exception e ) {
-                                            infoMessage( "Qualcosa è andato storto, riprova");
+                                            infoMessage( "Qualcosa è andato storto, riprova" );
                                         }
 
                                     }
@@ -652,7 +662,7 @@ public class Programma {
                                         long idForP = 0;
                                         infoMessage( "Inserisci il nome del debitore" );
                                         String nome = scanner.nextLine();
-                                        infoMessage( "Inserisci il cognome del debitore");
+                                        infoMessage( "Inserisci il cognome del debitore" );
                                         String cognome = scanner.nextLine();
 
                                         infoMessage( "Ricerco..." );
@@ -681,7 +691,7 @@ public class Programma {
 
                                         if( prestitiTrovati.size() == 0 ) {
                                             errorMessage( "Prestito non trovato" );
-                                            infoMessage( "Ricontrolla");
+                                            infoMessage( "Ricontrolla" );
                                         } else if( prestitiTrovati.size() > 1 ) {
                                             infoMessage( "Trovati più prestiti dello stesso utente" );
                                             for( Prestito u : prestitiTrovati ) {
@@ -698,7 +708,7 @@ public class Programma {
                                         }
 
                                         infoMessage( "Estinguo prestito..." );
-                                        System.out.println(idForP);
+                                        System.out.println( idForP );
                                         restutuitoPrestito( prestitoDao.getById( idForP ) );
                                     }
 
@@ -711,7 +721,7 @@ public class Programma {
                                             infoMessage( "Estinguo prestito..." );
                                             restutuitoPrestito( prestitoDao.getById( id ) );
                                         } catch( Exception e ) {
-                                            errorMessage( "Qualcosa è andato storto, riprova");
+                                            errorMessage( "Qualcosa è andato storto, riprova" );
                                         }
 
                                     }
@@ -738,6 +748,260 @@ public class Programma {
     }
 
     private void modaleUtente() {
+        boolean esegui = true;
+
+        while( esegui ) {
+            standardMessage( "MENU UTENTE" );
+            System.out.println( """
+                    0. Torna al menu principale\s
+                    1. Visualizza lista utenti \s
+                    2. Cerca per nome e cognome poi modifica utente
+                    3. Aggiungi un nuovo utente
+                    """ );
+
+            try {
+                int scelta = scanner.nextInt();
+                long userId = 0;
+
+                switch (scelta) {
+                    case 0 -> {
+                        standardMessage( "Torno al menu principale" );
+                        esegui = false;
+                    }
+
+                    case 1 -> {
+                        getUtenti();
+                    }
+
+                    case 2 -> {
+                        boolean esegui2 = true;
+                        int count = 0;
+
+                        while( esegui2 ) {
+                            if( count == 0 ) {
+                                scanner.nextLine();
+                            }
+                            count++;
+
+                            try {
+                                standardMessage( "Ricerca per nome e cognome" );
+
+                                infoMessage( "Inserisci il nome dell'utente" );
+                                String nome = scanner.nextLine();
+
+                                infoMessage( "Inserisci il cognome dell'utente'" );
+                                String cognome = scanner.nextLine();
+
+                                infoMessage( "ricerco utenti..." );
+
+                                List<Utente> findedUtenti = utenteDao.getUserByFullName( nome, cognome );
+
+                                if( findedUtenti.isEmpty() ) {
+                                    errorMessage( "Nessun utente trovato! Riprova." );
+                                } else if( findedUtenti.size() == 1 ) {
+                                    infoMessage( "Trovata una sola corrispondenza" );
+                                    printerUtente( findedUtenti.get( 0 ) );
+                                    userId = findedUtenti.get( 0 ).getNumeroTessera();
+                                    infoMessage( "Seleziono automaticamente il numero tessera: " + userId );
+                                    esegui2 = false;
+                                } else {
+                                    infoMessage( "Trovati " + findedUtenti.size() + " risultati" );
+
+                                    for( Utente ut : findedUtenti ) {
+                                        printerUtente( ut );
+                                    }
+
+                                    infoMessage( "Inserisci numero tessera per selezionare l'utente" );
+                                    userId = scanner.nextInt();
+                                    esegui2 = false;
+                                }
+
+                                if( userId != 0 ) {
+                                    boolean esegui3 = true;
+
+                                    while( esegui3 ) {
+                                        try {
+                                            infoMessage( "Che azioni vuoi effettuare?" );
+                                            System.out.println( """
+                                                    0. Torna al menu principale\s
+                                                    1. Visualizza prestiti dell'utente \s
+                                                    2. Aggiorna dati utente
+                                                    3. Elimina utente
+                                                    """ );
+
+                                            int sceltaAzione = scanner.nextInt();
+
+                                            switch (sceltaAzione) {
+                                                case 0 -> {
+                                                    esegui3 = false;
+                                                }
+
+                                                case 1 -> {
+                                                    infoMessage( "Visualizzo prestiti dell'utente" );
+
+                                                    List<Prestito> prestitiUtente =
+                                                            prestitoDao.getPrestitoByUserId( userId );
+
+                                                    if( prestitiUtente.isEmpty() ) {
+                                                        infoMessage( "L'utente non ha prestiti" );
+                                                    } else {
+
+                                                        for( Prestito p : prestitiUtente ) {
+                                                            printerPrestito( p );
+                                                        }
+                                                    }
+                                                }
+
+                                                case 2 -> {
+                                                    boolean esegui4 = true;
+
+                                                    while( esegui4 ) {
+                                                        infoMessage( "Modifica dati utente, quale campo vuoi modificare?" );
+                                                        System.out.println( """
+                                                                0. Annulla
+                                                                1. Nome
+                                                                2. Cognome
+                                                                3. Data di nascita""" );
+
+                                                        int sceltaModifica = scanner.nextInt();
+
+                                                        Utente utenteSelezionato = utenteDao.getById( userId );
+                                                        switch (sceltaModifica) {
+                                                            case 0 -> {
+                                                                esegui4 = false;
+                                                            }
+                                                            case 1 -> {
+                                                                scanner.nextLine();
+                                                                infoMessage( "Che nome vuoi dare a " + utenteSelezionato.getNome() + " ?" );
+                                                                String nuovoNome = scanner.nextLine();
+
+                                                                infoMessage( "Modifico in " + nuovoNome );
+
+                                                                utenteDao.refreshNome( utenteSelezionato, nuovoNome );
+
+                                                            }
+                                                            case 2 -> {
+                                                                scanner.nextLine();
+                                                                infoMessage( "Che cognome vuoi dare a " + utenteSelezionato.getNome()+ " " + utenteSelezionato.getCognome() + " ?" );
+                                                                String nuovoCognome = scanner.nextLine();
+                                                                infoMessage( "Modifico in " + nuovoCognome );
+
+                                                                utenteDao.refreshCognome( utenteSelezionato, nuovoCognome );
+                                                            }
+                                                            case 3 -> {
+                                                                scanner.nextLine();
+
+                                                                infoMessage( "Modifica data di nascita formato YYYY/M/D" );
+                                                                infoMessage( "Che anno di nascita vuoi dare all' utente " + utenteSelezionato.getNome() );
+                                                                int anno = scanner.nextInt();
+
+                                                                infoMessage( "Che mese di nascita vuoi dare all' utente " + utenteSelezionato.getNome() );
+                                                                int mese = scanner.nextInt();
+
+                                                                infoMessage( "Che mese di nascita vuoi dare all' utente " + utenteSelezionato.getNome() );
+                                                                int giorno = scanner.nextInt();
+
+                                                                LocalDate dataSelezionata = LocalDate.of( anno, mese, giorno );
+
+                                                                infoMessage( "Modifico in " + anno + "/" + mese + "/" + giorno );
+                                                                utenteDao.refreshDataNascita( utenteSelezionato, dataSelezionata );
+
+                                                            }
+                                                            default -> errorMessage( "Input fuori range" );
+                                                        }
+
+                                                    }
+                                                }
+
+
+                                                case 3 -> {
+                                                    System.out.println( """
+                                                            Questa azione è irreversibile, sei sicuro?
+                                                             1.SI
+                                                             2.NO""" );
+
+                                                    int sceltaEliminazione = scanner.nextInt();
+
+                                                    if( sceltaEliminazione == 1 ) {
+                                                        utenteDao.delete( utenteDao.getById( userId ) );
+                                                        esegui3 = false;
+                                                    } else {
+                                                        infoMessage( "Annullo scelta" );
+                                                        esegui3 = false;
+                                                    }
+                                                }
+                                            }
+
+                                        } catch( Exception e ) {
+                                            errorMessage( "Qualcosa è andato storto, riprova" );
+                                        }
+                                    }
+                                }
+
+                            } catch( Exception e ) {
+                                errorMessage( "Qualcosa è andato storto, riprova!" );
+                                scanner.nextLine();
+                            }
+                        }
+
+                    }
+
+                    case 3 -> {
+                        boolean eseguiAggiunta = true;
+
+                        while( eseguiAggiunta ) {
+                            scanner.nextLine();
+                            try {
+                                standardMessage( "AGGIUNGI NUOVO UTENTE" );
+                                infoMessage( "Inserisci nome" );
+                                String nome = scanner.nextLine();
+
+                                infoMessage( "Inserisci cognome" );
+                                String cognome = scanner.nextLine();
+
+                                infoMessage( "Inserisci ANNO di nascita" );
+                                int anno = scanner.nextInt();
+
+                                infoMessage( "Inserisci MESE di nascita (numero)" );
+                                int mese = scanner.nextInt();
+
+                                infoMessage( "Inserisci GIORNO di nascita (numero)" );
+                                int giorno = scanner.nextInt();
+
+                                LocalDate dataUtente = LocalDate.of( anno, mese, giorno );
+
+                                saveUtente( nome, cognome, dataUtente );
+
+                                infoMessage( """
+                                        Vuoi salvare un nuovo utente?
+                                        1. SI
+                                        2. NO""" );
+
+                                int input = scanner.nextInt();
+
+                                if( input == 2 ) {
+                                    infoMessage( "Torno al menu utente..." );
+                                    eseguiAggiunta = false;
+                                }
+
+                            } catch( Exception e ) {
+                                errorMessage( "Qualcosa è andato storto, riprova!" );
+                                scanner.nextLine();
+                            }
+                        }
+                    }
+
+
+                    default -> {
+                        standardMessage( "Input fuori range. Riprova!" );
+                    }
+                }
+            } catch( Exception e ) {
+                errorMessage( "Qualcosa è andato storto, riprova" );
+                scanner.nextLine();
+            }
+        }
+
 
     }
 
@@ -781,7 +1045,7 @@ public class Programma {
     }
 
     private void restutuitoPrestito( Prestito prestito ) {
-        prestito.setRestuzione( LocalDate.now().toString() );
+        prestito.restituito();
         prestitoDao.refresh( prestito );
     }
 

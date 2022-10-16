@@ -13,9 +13,9 @@ import java.util.Date;
 @Entity
 @NamedQuery(
         name = "userByFullName",
-        query = "select u from Utente u where upper(u.nome) = upper(:nome) and upper(u.cognome) = upper(:cognome)"
+        query = "select u from Utente u where upper(u.nome) like upper(concat('%', :nome, '%')) and upper(u" +
+                ".cognome) like upper(concat('%', :cognome, '%'))"
 )
-
 public class Utente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

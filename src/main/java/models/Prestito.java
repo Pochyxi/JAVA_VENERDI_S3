@@ -33,10 +33,10 @@ public class Prestito {
 
     private LocalDate dataScadenzaPrestito = LocalDate.now().plusMonths( 1 );
 
-    private String restuzione;
+    private String restituzione;
 
     public void restituito() {
-        this.restuzione = LocalDate.now().toString();
+        this.restituzione = LocalDate.now().toString();
     }
 
     @Override
@@ -47,6 +47,6 @@ public class Prestito {
                 ", catalogo=" + catalogo +
                 ", dataPrestito=" + dataPrestito +
                 ", dataScadenzaPrestito=" + dataScadenzaPrestito +
-                ", restuzione=" + restuzione;
+                ", restuzione=" + restituzione;
     }
 }

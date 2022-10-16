@@ -1,6 +1,7 @@
 package DAO;
 
 import ch.qos.logback.classic.Logger;
+import models.Prestito;
 import models.Utente;
 import org.slf4j.LoggerFactory;
 import util.JpaUtil;
@@ -8,6 +9,7 @@ import util.JpaUtil;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import java.time.LocalDate;
 import java.util.List;
 
 public class UtenteDAO {
@@ -23,6 +25,8 @@ public class UtenteDAO {
 
             em.persist(object);
 
+            System.out.println( "SALVATO" + object);
+
             transaction.commit();
         } catch (Exception ex) {
             em.getTransaction().rollback();
@@ -36,11 +40,47 @@ public class UtenteDAO {
 
     }
 
-    public void refresh(Utente object) {
+    public void refreshNome(Utente object, String nome) {
         EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
         try {
 
-            em.refresh(object);
+            Utente utente = em.find(object.getClass(), object.getNumeroTessera());
+
+            em.getTransaction().begin();
+            utente.setNome( nome );
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public void refreshCognome(Utente object, String cognome) {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+
+            Utente utente = em.find(object.getClass(), object.getNumeroTessera());
+
+            em.getTransaction().begin();
+            utente.setCognome( cognome );
+            em.getTransaction().commit();
+
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public void refreshDataNascita(Utente object, LocalDate data) {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+
+            Utente utente = em.find(object.getClass(), object.getNumeroTessera());
+
+            em.getTransaction().begin();
+            utente.setDataDiNascita( data );
+            em.getTransaction().commit();
 
         } finally {
             em.close();
@@ -56,6 +96,9 @@ public class UtenteDAO {
             transaction.begin();
 
             em.remove(em.contains(object) ? object : em.merge(object));
+
+            System.out.println("...Eliminato -> " + object);
+            System.out.println();
 
             transaction.commit();
         } catch (Exception ex) {
@@ -79,6 +122,17 @@ public class UtenteDAO {
             em.close();
         }
 
+    }
+
+    public List<Utente> getAll() {
+        EntityManager em = JpaUtil.getEntityManagerFactory().createEntityManager();
+        try {
+
+            return em.createQuery("select p from Utente p").getResultList();
+
+        } finally {
+            em.close();
+        }
     }
 
     public List<Utente> getUserByFullName( String nome, String cognome ) {
